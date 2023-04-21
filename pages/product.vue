@@ -2,9 +2,9 @@
     <LoadingBar :visible="isLoading" />
     <div v-show="!isLoading" class="container mx-auto px-4 lg:px-0">
         <section class="py-8">
-            <div class="flex flex-col lg:flex-row items-center">
-                <div class="w-full lg:w-1/2 lg:mr-8 mb-8 lg:mb-0">
-                    <img :src="activeImage" alt="Main product image" class="w-full rounded-lg mb-4" />
+            <div class="flex flex-col lg:flex-row flex-start">
+                <div class="  lg:w-1/2 lg:mr-8 mb-8 lg:mb-0">
+                    <img :src="activeImage" alt="Main product image" class="  rounded-lg mb-4" />
                     <div class="flex justify-center space-x-4 overflow-x-auto">
                         <img
                             v-for="(image, index) in productLinks"
@@ -16,9 +16,9 @@
                         />
                     </div>
                 </div>
-                <div class="w-full lg:w-1/2">
+                <div class="  lg:w-1/2">
                     <h1 class="text-4xl font-bold mb-4">Customizable Unisex Classic T-Shirt</h1>
-                    <div class="bg-white rounded-md shadow-md px-6 py-4 mb-6">
+                    <div class="bg-white mb-6">
                         <h2 class="font-bold text-xl mb-2">Product Features</h2>
                         <ul class="list-disc list-inside">
                             <li class="mb-2">Classic unisex design</li>
@@ -28,7 +28,7 @@
                             <li>Ideal for various occasions</li>
                         </ul>
                     </div>
-                    <p class="text-5xl mt-0 mb-8 font-bold text-green-600">$19.99</p>
+                    <p class="text-3xl mt-8 mb-8 font-bold ">$19.99</p>
                     <h2 class="font-bold text-xl mb-2">Size</h2>
                     <div class="flex space-x-4 mb-4">
                         <button
@@ -51,7 +51,7 @@
                             {{ color }}
                         </button>
                     </div>
-                    <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-full mb-4 block w-full lg:w-auto">
+                    <button @click="success" class="bg-green-500 hover:bg-green-600 text-white font-bold mt-8 py-3 px-8 rounded-full mb-4 block w-1/2 ">
                         Buy Now
                     </button>
                 </div>
@@ -99,6 +99,11 @@ export default {
     setActiveImage(image) {
       this.activeImage = image;
     },
+    success(){
+      this.$router.push({
+    name: "success",
+  });
+    }
   },
 };
 </script>

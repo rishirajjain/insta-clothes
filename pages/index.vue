@@ -203,7 +203,7 @@ export default {
     }
   }, 1000);
 
-  const response = await fetch("https://instamerch-backend.onrender.com/test_designs", {
+  const response = await fetch("https://instamerch-backend.onrender.com/designs", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
