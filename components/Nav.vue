@@ -17,16 +17,12 @@
               exact
               :class="{ active: $route.path === '/' }"
             >Home</nuxt-link>
-            <nuxt-link
-              to="/product"
-              :class="{ active: $route.path === '/product' }"
-            >Products</nuxt-link>
+            
             <nuxt-link
               to="/about"
               :class="{ active: $route.path === '/about' }"
             >About</nuxt-link>
           </div>
-          <button class="cart-icon">🛒</button>
         </div>
       </div>
     </div>
@@ -39,14 +35,12 @@
             <span class="name font-bold text-xl md:text-4xl">InstaMerch</span>
           </nuxt-link>
         </div>
-        <button class="cart-icon">🛒</button>
-      </div>
+       </div>
     </div>
     <!-- Mobile Menu -->
     <div class="mobile-menu">
       <ul class="flex flex-col items-center space-y-4 py-4">
         <li><nuxt-link to="/" exact>Home</nuxt-link></li>
-        <li><nuxt-link to="/product">Products</nuxt-link></li>
         <li><nuxt-link to="/about">About</nuxt-link></li>
       </ul>
     </div>

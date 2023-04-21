@@ -115,6 +115,7 @@
 <script>
 import VueCropper from 'vue-cropperjs';
 import 'cropperjs/dist/cropper.css';
+import { useProductStore } from "~/stores/product";
 export default {
   components: {
     VueCropper
@@ -154,6 +155,13 @@ export default {
             return this.counter;
         },
     },
+    setup() {
+    // Use the product store
+    const productStore = useProductStore();
+
+    // Return productStore to access it within the component
+    return { productStore };
+  },
   methods: {
     cropImage() {
     const croppedImageCanvas = this.$refs.cropper
@@ -187,13 +195,13 @@ export default {
     return;
   }
   this.isLoading = true;
-        this.counter = 15;
-        const countdown = setInterval(() => {
-            this.counter--;
-            if (this.counter === 0) {
-                clearInterval(countdown);
-            }
-        }, 1000);
+  this.counter = 15;
+  const countdown = setInterval(() => {
+    this.counter--;
+    if (this.counter === 0) {
+      clearInterval(countdown);
+    }
+  }, 1000);
 
   const response = await fetch("https://instamerch-backend.onrender.com/test_designs", {
     method: "POST",
@@ -210,13 +218,17 @@ export default {
   console.log(data);
   this.productLinks = data.main;
   this.isLoading = false;
-        clearInterval(countdown);
+  clearInterval(countdown);
+
+  // Update productLinks in the store
+  this.productStore.setProductLinks(this.productLinks);
+
   // Navigate to the product page
-        this.$router.push({
-            name: 'product',
-            query: { productLinks: JSON.stringify(this.productLinks) },
-        });
+  this.$router.push({
+    name: "product",
+  });
 },
+
   },
 };
 </script>
