@@ -74,10 +74,16 @@ export default {
   components: {
     LoadingBar,
   },
+    computed: {
+        productLinks() {
+            return JSON.parse(this.$route.query.productLinks);
+            debugger
+        },
+    },
   data() {
     return {
       selectedSize: null,
-      isLoading: true,
+      isLoading: false,
     };
   },
 };

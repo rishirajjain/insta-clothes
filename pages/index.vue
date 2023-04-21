@@ -1,6 +1,25 @@
+import Vue from 'vue';
+import App from './App.vue';
+import router from './router'; // Import the router configuration
+
+Vue.config.productionTip = false;
+
+new Vue({
+router, // Add the router to your Vue instance
+render: (h) => h(App),
+}).$mount('#app');
+
 <template>
   <div class="container mx-auto px-4">
-    <section class="text-center py-8">
+          <!-- Loading overlay -->
+      <div v-if="isLoading" class="fixed inset-0 bg-gray-900 opacity-75 flex items-center justify-center">
+          <div class="text-center">
+              <h2 class="text-white text-xl mb-4">Loading... ({{ counterDisplay }})</h2>
+              <p class="text-white">Please wait while we process your design</p>
+          </div>
+      </div>
+
+      <section class="text-center py-8">
       <h1 class="text-4xl font-bold mb-4">
         Get customized t-shirts in two steps.
       </h1>
@@ -113,6 +132,9 @@ export default {
   },
   data() {
     return {
+        counter: 15,
+        isLoading: false,
+        productLinks: [],
       selectedStyle: "",
       designText: "",
       image: "",
@@ -138,6 +160,11 @@ export default {
       ],
     };
   },
+    computed: {
+        counterDisplay() {
+            return this.counter;
+        },
+    },
   methods: {
     cropImage() {
     const croppedImageCanvas = this.$refs.cropper
@@ -170,8 +197,17 @@ export default {
   if (!this.image && !this.designText) {
     return;
   }
+  this.isLoading = true;
   this.$emit('submit-started');
-  const response = await fetch("https://instamerch-backend.onrender.com/designs", {
+        this.counter = 15;
+        const countdown = setInterval(() => {
+            this.counter--;
+            if (this.counter === 0) {
+                clearInterval(countdown);
+            }
+        }, 1000);
+
+  const response = await fetch("https://instamerch-backend.onrender.com/test_designs", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -183,8 +219,16 @@ export default {
     }),
   });
   const data = await response.json();
-  
-  // Handle the response data here 
+  console.log(data);
+  this.productLinks = data.main;
+  this.isLoading = false;
+        clearInterval(countdown);
+  // Navigate to the product page
+        this.$router.push({
+            name: 'Product',
+            query: { productLinks: JSON.stringify(this.productLinks) },
+        });
+
   this.$emit('submit-completed');
 },
   },
