@@ -195,7 +195,7 @@ export default {
     return;
   }
   this.isLoading = true;
-  this.counter = 15;
+  this.counter = 25;
   const countdown = setInterval(() => {
     this.counter--;
     if (this.counter === 0) {
