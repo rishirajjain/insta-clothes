@@ -45,5 +45,7 @@ Locally preview production build:
 ```bash
 npm run preview
 ```
-
+## Backend
+This app works with this ruby on rails backend : https://github.com/anantprsd5/instamerch
+```
 Checkout the [deployment documentation](https://v3.nuxtjs.org/guide/deploy/presets) for more information.
