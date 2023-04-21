@@ -1,14 +1,3 @@
-import Vue from 'vue';
-import App from './App.vue';
-import router from './router'; // Import the router configuration
-
-Vue.config.productionTip = false;
-
-new Vue({
-router, // Add the router to your Vue instance
-render: (h) => h(App),
-}).$mount('#app');
-
 <template>
   <div class="container mx-auto px-4">
           <!-- Loading overlay -->
@@ -198,7 +187,6 @@ export default {
     return;
   }
   this.isLoading = true;
-  this.$emit('submit-started');
         this.counter = 15;
         const countdown = setInterval(() => {
             this.counter--;
@@ -225,11 +213,9 @@ export default {
         clearInterval(countdown);
   // Navigate to the product page
         this.$router.push({
-            name: 'Product',
+            name: 'product',
             query: { productLinks: JSON.stringify(this.productLinks) },
         });
-
-  this.$emit('submit-completed');
 },
   },
 };

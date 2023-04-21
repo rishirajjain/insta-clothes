@@ -8,60 +8,27 @@
           <p class="text-lg mb-4">$99.99</p>
           <div class="flex space-x-4 mb-8">
             <button
-              @click="selectedSize = 'XS'"
-              :class="['rounded-full px-4 py-2 border', selectedSize === 'XS' ? 'bg-blue-500 text-white' : '']"
+              v-for="(size, index) in sizes"
+              :key="index"
+              @click="selectedSize = size"
+              :class="['rounded-full px-4 py-2 border', selectedSize === size ? 'bg-blue-500 text-white' : '']"
             >
-              XS
+              {{ size }}
             </button>
-            <button
-              @click="selectedSize = 'S'"
-              :class="['rounded-full px-4 py-2 border', selectedSize === 'S' ? 'bg-blue-500 text-white' : '']"
-            >
-              S
-            </button>
-            <button
-              @click="selectedSize = 'M'"
-              :class="['rounded-full px-4 py-2 border', selectedSize === 'M' ? 'bg-blue-500 text-white' : '']"
-            >
-              M
-            </button>
-            <button
-              @click="selectedSize = 'L'"
-              :class="['rounded-full px-4 py-2 border', selectedSize === 'L' ? 'bg-blue-500 text-white' : '']"
-            >
-              L
-            </button>
-            <button
-              @click="selectedSize = 'XL'"
-              :class="['rounded-full px-4 py-2 border', selectedSize === 'XL' ? 'bg-blue-500 text-white' : '']"
-            >
-              XL
-            </button>
-            <button
-              @click="selectedSize = 'XXL'"
-              :class="['rounded-full px-4 py-2 border', selectedSize === 'XXL' ? 'bg-blue-500 text-white' : '']"
-            >
-              XXL
-            </button>
-          </div>
-          <h2 class="text-2xl font-bold mb-4">You might also like</h2>
-          <div class="flex space-x-4 overflow-x-auto">
-            <div class="bg-white rounded shadow p-4 w-64">
-              <img src="your-image-url-here" alt="Image description" class="w-full rounded mb-4" />
-              <h3 class="text-lg font-bold mb-2">$49.99</h3>
-            </div>
-            <div class="bg-white rounded shadow p-4 w-64">
-              <img src="your-image-url-here" alt="Image description" class="w-full rounded mb-4" />
-              <h3 class="text-lg font-bold mb-2">$59.99</h3>
-            </div>
-            <div class="bg-white rounded shadow p-4 w-64">
-              <img src="your-image-url-here" alt="Image description" class="w-full rounded mb-4" />
-              <h3 class="text-lg font-bold mb-2">$69.99</h3>
-            </div>
           </div>
         </div>
         <div class="w-full md:w-1/2">
-          <img src="your-image-url-here" alt="Image description" class="w-full rounded" />
+          <img :src="activeImage" alt="Main product image" class="w-full rounded mb-4" />
+          <div class="flex space-x-4 overflow-x-auto">
+            <img
+              v-for="(image, index) in productLinks"
+              :key="index"
+              :src="image"
+              alt="Product image thumbnail"
+              @click="setActiveImage(image)"
+              class="w-20 h-20 rounded cursor-pointer"
+            />
+          </div>
         </div>
       </div>
     </section>
@@ -70,21 +37,42 @@
 
 <script>
 import LoadingBar from "@/components/LoadingBar.vue";
+
 export default {
   components: {
     LoadingBar,
   },
-    computed: {
-        productLinks() {
-            return JSON.parse(this.$route.query.productLinks);
-            debugger
-        },
+  computed: {
+    productLinks() {
+      return this.$data.productLinks;
     },
+  },
   data() {
     return {
       selectedSize: null,
       isLoading: false,
+      productLinks: null,
+      sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+      activeImage: "",
     };
+  },
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      // Parse the productLinks data from the route's query parameters
+      vm.productLinks = JSON.parse(to.query.productLinks);
+      vm.activeImage = vm.productLinks[0];
+    });
+  },
+  beforeRouteUpdate(to, from, next) {
+    // Parse the productLinks data from the route's query parameters
+    this.productLinks = JSON.parse(to.query.productLinks);
+    this.activeImage = this.productLinks[0];
+    next();
+  },
+  methods: {
+    setActiveImage(image) {
+      this.activeImage = image;
+    },
   },
 };
 </script>
