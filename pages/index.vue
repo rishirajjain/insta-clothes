@@ -36,7 +36,7 @@
       </div>
       <div>
         <h3 class="mb-4 font-semibold">
-          Step 2: Describe the design you wish to Print or Upload an image to get stylized options.
+          Step 2: Describe the design you wish to Print and Upload an image to get stylized options.
         </h3>
         <div class="mb-4">
           <textarea
@@ -100,13 +100,13 @@
             </div>
           </div>
         </div>
-
+        <p class="text-red-500" v-if="errorMessage">{{ errorMessage }}</p>
         
         <button
           @click="submitForm"
           class="bg-blue-500 text-white px-6 py-2 mt-4 rounded-lg shadow-md"
         >
-          Submit
+          Let's make magic!
         </button>
       </div>
     </section>
@@ -129,6 +129,7 @@ export default {
       designText: "",
       image: "",
       isCropped: false,
+      errorMessage: "",
       styles: [
         "3d-model",
         "analog-film",
@@ -191,8 +192,11 @@ export default {
       }
     },
     async submitForm() {
-  if (!this.image && !this.designText) {
+      if (!this.image || !this.designText) {
+    this.errorMessage = "Please add both text and an image before submitting.";
     return;
+  } else {
+    this.errorMessage = "";
   }
   this.isLoading = true;
   this.counter = 25;
